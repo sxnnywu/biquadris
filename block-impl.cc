@@ -64,3 +64,18 @@ const array<Position, 4>& Block::getCoordinates() const {
 int Block::getGenerationLevel() const {
     return generationLevel;
 }
+
+// moves all four cells of a block
+// in the specified direction
+// tryMove() checks if a movement is valid
+void Block::translate(Motion m) {
+    for (auto& p : coordinates) {
+        if (m == Motion::Left) {
+            --p.col;
+        } else if (m == Motion::Right) {
+            ++p.col;
+        } else if (m == Motion::Down) {
+            ++p.row;
+        }
+    }
+}

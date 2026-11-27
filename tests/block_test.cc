@@ -1,5 +1,5 @@
 // tests creation, starting positions, shapes,
-// types and generation difficulty levels of all seven blocks.
+// types, generation difficulty levels and movement of blocks
 
 import <iostream>;
 import <array>;
@@ -28,7 +28,7 @@ bool checkBlock(BlockType type, string top, string bottom) {
       return false;
     }
 
-    // Check for duplicate coordinates.
+    // check for duplicate coordinates
     if (actual[p.row - 2][p.col]) {
       return false;
     }
@@ -48,6 +48,47 @@ bool checkBlock(BlockType type, string top, string bottom) {
   }
 
   return true;
+}
+
+// tests whether a block moves correctly in all 3 directions
+bool checkTranslation() {
+  Block b = Block::create(BlockType::O, 2);
+
+  // make a copy so the original coordinates don't change
+  const auto original = b.getCoordinates();
+
+  // move right, column should increase by 1
+  b.translate(Motion::Right);
+
+  for (int i = 0; i < 4; ++i) {
+    if (b.getCoordinates()[i].row != original[i].row ||
+        b.getCoordinates()[i].col != original[i].col + 1) {
+      return false;
+    }
+  }
+
+  // move down, row should increase by 1
+  b.translate(Motion::Down);
+
+  for (int i = 0; i < 4; ++i) {
+    if (b.getCoordinates()[i].row != original[i].row + 1 ||
+        b.getCoordinates()[i].col != original[i].col + 1) {
+      return false;
+    }
+  }
+
+  // move left, column should return to its original value
+  b.translate(Motion::Left);
+
+  for (int i = 0; i < 4; ++i) {
+    if (b.getCoordinates()[i].row != original[i].row + 1 ||
+        b.getCoordinates()[i].col != original[i].col) {
+      return false;
+    }
+  }
+
+  // moving the block shouldn't change its type or generation level
+  return b.getType() == BlockType::O && b.getGenerationLevel() == 2;
 }
 
 int main() {
@@ -94,6 +135,15 @@ int main() {
   cout << "PASS: T-block" << endl;
 
   cout << "All block creation tests passed." << endl;
+
+  // test block movement
+  if (!checkTranslation()) {
+    cout << "FAIL: Block translation" << endl;
+    return 1;
+  }
+  cout << "PASS: Block translation" << endl;
+
+  cout << "All block tests passed." << endl;
 
   return 0;
 }

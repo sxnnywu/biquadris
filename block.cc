@@ -14,6 +14,8 @@ export class Block {
 public:
     // creates a block in the first place
     static Block create(BlockType t, int level);
+    // moving the block
+    void translate(Motion m);
 
     // accessors
     BlockType getType() const;
