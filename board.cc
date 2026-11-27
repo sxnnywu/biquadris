@@ -7,6 +7,7 @@ import <array>;
 import <map>;
 import cell;
 import blockrecord;
+import block;
 using namespace std;
 
 export class Board {
@@ -20,6 +21,8 @@ export class Board {
   int nextBlockId = 1;
 
  public:
+  // checks if a block can occupy a position
+  bool fits(const Block &b) const;
   // other classes use this to view board and not modify it, used for display
   // not in the UML, since its an accessor
   const array<array<Cell, 11>, 18> &getCells() const;
