@@ -2,3 +2,4 @@
 gcm.cache/
 /biquadris
 /tests/module_test
+/tests/board_test
